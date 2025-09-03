@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'pages/welcome_page.dart';
 import 'pages/homepage.dart' as home;
 import 'pages/login_page.dart';
 import 'pages/registration.dart';
@@ -151,8 +152,9 @@ class MyApp extends StatelessWidget {
           indicatorColor: Color(0xFFD32D43),
         ),
       ),
-      home: const LoginPage(),
+      home: const WelcomePage(),
       routes: {
+        '/welcome': (context) => const WelcomePage(),
         '/login': (context) => const LoginPage(),
         '/signup': (context) => const SignupPage(),
         '/home': (context) => const home.HomePage(),

@@ -97,8 +97,9 @@ app.post('/api/v1/sales/test-order', async (req, res) => {
   }
 });
 
-server.listen(port, () => {
+server.listen(port, '0.0.0.0', () => {
     console.log(`Server is running on port ${port}`);
     console.log(`Health check available at http://localhost:${port}/health`);
+    console.log(`Server accessible from Android emulator at http://10.0.2.2:${port}/health`);
 });
 

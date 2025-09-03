@@ -1,35 +1,16 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/menu_item.dart';
 import '../models/order.dart';
 import '../models/cart_item.dart';
 import '../models/payment_method.dart';
 import '../models/delivery_address.dart';
+import '../config/api_config.dart';
 
 class ApiService {
   // Dynamic base URL based on platform
-  static String get baseUrl {
-    // For web, use localhost
-    if (kIsWeb) {
-      return 'http://localhost:3000/api/v1';
-    }
-    
-    // For Android emulator
-    if (Platform.isAndroid) {
-      return 'http://10.0.2.2:3000/api/v1';
-    }
-    
-    // For iOS simulator
-    if (Platform.isIOS) {
-      return 'http://localhost:3000/api/v1';
-    }
-    
-    // Default fallback
-    return 'http://localhost:3000/api/v1';
-  }
+  static String get baseUrl => ApiConfig.baseUrl;
   
   static final ApiService _instance = ApiService._internal();
   factory ApiService() => _instance;
@@ -39,12 +20,13 @@ class ApiService {
   String? _authToken;
 
   void initialize() {
+    ApiConfig.printNetworkInfo();
     print('🔗 Initializing API Service with baseUrl: $baseUrl');
     
     _dio = Dio(BaseOptions(
       baseUrl: baseUrl,
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 10),
+      connectTimeout: ApiConfig.connectTimeout,
+      receiveTimeout: ApiConfig.receiveTimeout,
       headers: {
         'Content-Type': 'application/json',
       },
